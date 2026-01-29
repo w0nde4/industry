@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.Linq;
 
 public class ProductionBehavior : IBuildingBehavior
@@ -11,6 +12,11 @@ public class ProductionBehavior : IBuildingBehavior
     
     private ConnectionPoint _outputPoint;
     private bool _isOutputBlocked;
+    private bool _isOutputInitialized;
+
+    private ConnectionPointSettings _connectionPointSettings;
+    private GridSystem _gridSystem;
+    private List<ConnectionPoint> _adjacentCache = new List<ConnectionPoint>(20);
     
     public ProductionBehavior(ProductionConfig config)
     {
@@ -23,26 +29,42 @@ public class ProductionBehavior : IBuildingBehavior
         _productionTimer = 0f;
         _accumulatedResources = 0;
         _isOutputBlocked = false;
-
-        FindOutputPoint();
+        _isOutputInitialized = false;
+        
+        _connectionPointSettings = Resources.Load<ConnectionPointSettings>("ConnectionPointSettings");
+        if (_connectionPointSettings == null)
+        {
+            Debug.LogError("[ProductionBehavior] ConnectionPointSettings not found in Resources!");
+        }
+        
+        _gridSystem = BuildingService.Instance.Grid;
         
         Debug.Log($"[ProductionBehavior] Initialized for {data.buildingName}");
     }
-
-    private void FindOutputPoint()
+    
+    private void EnsureOutputInitialized()
     {
-        var points = _owner.GetComponentsInChildren<ConnectionPoint>();
+        if (_isOutputInitialized) return;
+        
+        var outputs = _owner.Outputs;
 
-        _outputPoint = points.FirstOrDefault(p => p.Type == ConnectionType.Output);
-
-        if (_outputPoint == null)
+        if (outputs == null || outputs.Length == 0)
         {
             Debug.LogError($"[ProductionBehavior] {_owner.Data.buildingName} has no Output ConnectionPoint!");
+            _isOutputInitialized = true; 
+            return;
         }
+        
+        _outputPoint = outputs[0];
+        _isOutputInitialized = true;
+        
+        Debug.Log($"[ProductionBehavior] Found output point for {_owner.Data.buildingName}");
     }
-    
+
     public void OnTick(float deltaTime)
     {
+        EnsureOutputInitialized();
+        
         if (_outputPoint == null) return;
 
         if (_accumulatedResources >= _config.maxOutputStack)
@@ -112,26 +134,25 @@ public class ProductionBehavior : IBuildingBehavior
 
     private ConveyorBuilding FindNextConveyor()
     {
-        var allBuildings = GameObject.FindObjectsByType<PlacedBuilding>(FindObjectsSortMode.None).ToList();
+        if(_connectionPointSettings == null) return null;
         
-        var adjacentPoints = ConnectionPointHelper.GetAdjacentConnectionPoints(
+        var allBuildings = BuildingService.Instance.BuildingManager.AllBuildings;
+        
+        ConnectionPointHelper.GetAdjacentConnectionPoints(
             _outputPoint,
-            allBuildings,
-            1.5f
-        );
-        
-        var inputPoints = adjacentPoints
-            .Where(p => p.Type == ConnectionType.Input).ToList();
-        
-        if (inputPoints.Count == 0)
-            return null;
-        
+            new List<PlacedBuilding>(allBuildings),
+            _connectionPointSettings,
+            _adjacentCache);
+
         ConnectionPoint closestInput = null;
         var minDistance = float.MaxValue;
         
-        foreach (var point in inputPoints)
+        foreach (var point in _adjacentCache)
         {
+            if(point.Type != ConnectionType.Input) continue;
+            
             var distance = Vector3.Distance(_outputPoint.WorldPosition, point.WorldPosition);
+
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -146,10 +167,9 @@ public class ProductionBehavior : IBuildingBehavior
     {
         if (!_config.useModifiers) return 1f;
 
-        var gridSystem = GameObject.FindFirstObjectByType<GridSystem>();
-        if (gridSystem == null) return 1f;
+        if (_gridSystem == null) return 1f;
 
-        var cell = gridSystem.GetCell(_owner.GridPosition);
+        var cell = _gridSystem.GetCell(_owner.GridPosition);
 
         return cell == null ? 
             1f : cell.Modifiers.productionBonus;
