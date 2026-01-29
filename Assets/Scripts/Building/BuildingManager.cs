@@ -12,8 +12,12 @@ public class BuildingManager : MonoBehaviour
     private readonly Dictionary<BuildingSubType, Transform> _subTypeRoots = new Dictionary<BuildingSubType, Transform>();
     
     private readonly List<PlacedBuilding> _allBuildings = new List<PlacedBuilding>();
+    private readonly List<PlacedBuilding> _tempBuildings = new List<PlacedBuilding>();
     
     public IReadOnlyList<PlacedBuilding> AllBuildings => _allBuildings;
+    
+    [ShowInInspector, ReadOnly]
+    private int TotalBuildings => _allBuildings.Count;
     
     private void Awake()
     {
@@ -22,6 +26,8 @@ public class BuildingManager : MonoBehaviour
             buildingsRoot = new GameObject("Buildings").transform;
             buildingsRoot.SetParent(transform);
         }
+        
+        
     }
     
     public void RegisterBuilding(PlacedBuilding building)
@@ -50,8 +56,7 @@ public class BuildingManager : MonoBehaviour
     {
         var data = building.Data;
         
-        // Получаем или создаем папку категории
-        if (!_categoryRoots.TryGetValue(data.category, out Transform categoryRoot))
+        if (!_categoryRoots.TryGetValue(data.category, out var categoryRoot))
         {
             var categoryObj = new GameObject(data.category.ToString());
             categoryObj.transform.SetParent(buildingsRoot);
@@ -59,8 +64,7 @@ public class BuildingManager : MonoBehaviour
             _categoryRoots[data.category] = categoryRoot;
         }
         
-        // Получаем или создаем папку подтипа
-        if (!_subTypeRoots.TryGetValue(data.subType, out Transform subTypeRoot))
+        if (!_subTypeRoots.TryGetValue(data.subType, out var subTypeRoot))
         {
             var subTypeObj = new GameObject(data.subType.ToString() + "s");
             subTypeObj.transform.SetParent(categoryRoot);
@@ -72,35 +76,61 @@ public class BuildingManager : MonoBehaviour
         building.gameObject.name = $"{data.buildingName}_{_allBuildings.Count:000}";
     }
     
-    public List<PlacedBuilding> GetBuildingsByCategory(BuildingCategory category)
+    public void GetBuildingsByCategory(BuildingCategory category, List<PlacedBuilding> result)
     {
-        return _allBuildings.Where(b => b.Data.category == category).ToList();
+        result.Clear();
+        
+        foreach (var building in _allBuildings)
+        {
+            if (building.Data.category == category)
+            {
+                result.Add(building);
+            }
+        }
     }
     
-    public List<PlacedBuilding> GetBuildingsBySubType(BuildingSubType subType)
+    public void GetBuildingsBySubType(BuildingSubType subType, List<PlacedBuilding> result)
     {
-        return _allBuildings.Where(b => b.Data.subType == subType).ToList();
+        result.Clear();
+        
+        foreach (var building in _allBuildings)
+        {
+            if (building.Data.subType == subType)
+            {
+                result.Add(building);
+            }
+        }
     }
     
     public PlacedBuilding GetBuildingAtPosition(Vector2Int gridPosition)
     {
-        return _allBuildings.FirstOrDefault(b => 
+        foreach (var building in _allBuildings)
         {
-            var size = b.Size;
-            var pos = b.GridPosition;
+            var size = building.Size;
+            var pos = building.GridPosition;
             
-            return gridPosition.x >= pos.x && gridPosition.x < pos.x + size.x &&
-                   gridPosition.y >= pos.y && gridPosition.y < pos.y + size.y;
-        });
+            if (gridPosition.x >= pos.x && gridPosition.x < pos.x + size.x &&
+                gridPosition.y >= pos.y && gridPosition.y < pos.y + size.y)
+            {
+                return building;
+            }
+        }
+        
+        return null;
     }
     
     [Button("Clear All Buildings")]
     private void ClearAllBuildings()
     {
-        var buildingsToDestroy = _allBuildings.ToList();
-        foreach (var building in buildingsToDestroy)
+        _tempBuildings.Clear();
+        _tempBuildings.AddRange(_allBuildings);
+        
+        foreach (var building in _tempBuildings)
         {
-            building.Demolish();
+            if (building != null)
+            {
+                building.Demolish();
+            }
         }
         
         _allBuildings.Clear();
@@ -111,12 +141,23 @@ public class BuildingManager : MonoBehaviour
     [Button("Log Buildings Info")]
     private void LogBuildingsInfo()
     {
+        Debug.Log($"=== Buildings Info ===");
         Debug.Log($"Total Buildings: {_allBuildings.Count}");
         
-        var grouped = _allBuildings.GroupBy(b => b.Data.subType);
-        foreach (var group in grouped)
+        var countBySubType = new Dictionary<BuildingSubType, int>();
+        
+        foreach (var building in _allBuildings)
         {
-            Debug.Log($"  {group.Key}: {group.Count()}");
+            var subType = building.Data.subType;
+            
+            countBySubType.TryAdd(subType, 0);
+            
+            countBySubType[subType]++;
+        }
+        
+        foreach (var kvp in countBySubType)
+        {
+            Debug.Log($"  {kvp.Key}: {kvp.Value}");
         }
     }
 }

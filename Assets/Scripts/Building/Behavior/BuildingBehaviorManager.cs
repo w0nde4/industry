@@ -8,7 +8,10 @@ public class BuildingBehaviorManager : MonoBehaviour
     private List<PlacedBuilding> _managedBuildings = new List<PlacedBuilding>();
     
     [ShowInInspector, ReadOnly]
-    private int _activeBehaviorCount = 0;
+    private int ActiveBehaviorCount => CalculateActiveBehaviorCount();
+    
+    [ShowInInspector, ReadOnly]
+    private int ManagedBuildingsCount => _managedBuildings.Count;
     
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatics()
@@ -21,7 +24,6 @@ public class BuildingBehaviorManager : MonoBehaviour
         if (_managedBuildings.Contains(building)) return;
         
         _managedBuildings.Add(building);
-        UpdateBehaviorCount();
         Debug.Log($"[BuildingBehaviorManager] Registered {building.Data.buildingName}");
     }
     
@@ -30,7 +32,6 @@ public class BuildingBehaviorManager : MonoBehaviour
         if (!_managedBuildings.Contains(building)) return;
         
         _managedBuildings.Remove(building);
-        UpdateBehaviorCount();
         Debug.Log($"[BuildingBehaviorManager] Unregistered {building.Data.buildingName}");
     }
     
@@ -40,25 +41,28 @@ public class BuildingBehaviorManager : MonoBehaviour
         
         foreach (var building in _managedBuildings)
         {
-            if (building != null && building.Behaviors != null)
+            if (building == null || building.Behaviors == null) continue;
+            
+            foreach (var behavior in building.Behaviors)
             {
-                foreach (var behavior in building.Behaviors)
-                {
-                    behavior?.OnTick(deltaTime);
-                }
+                behavior?.OnTick(deltaTime);
             }
         }
     }
     
-    private void UpdateBehaviorCount()
+    private int CalculateActiveBehaviorCount()
     {
-        _activeBehaviorCount = 0;
-        foreach (var building in _managedBuildings
-                     .Where(building => building != null 
-                                        && building.Behaviors != null))
+        var count = 0;
+        
+        foreach (var building in _managedBuildings)
         {
-            _activeBehaviorCount += building.Behaviors.Count;
+            if (building != null && building.Behaviors != null)
+            {
+                count += building.Behaviors.Count;
+            }
         }
+        
+        return count;
     }
     
     [Button("Log Managed Buildings")]

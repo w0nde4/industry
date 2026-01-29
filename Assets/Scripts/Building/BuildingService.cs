@@ -18,12 +18,14 @@ public class BuildingService : MonoBehaviour
         }
     }
     
-    [SerializeField] private BuildingPlacer placer;
-    [SerializeField] private BuildingManager manager;
+    [SerializeField] private BuildingPlacer buildingPlacer;
+    [SerializeField] private BuildingManager buildingManager;
+    [SerializeField] private BuildingBehaviorManager behaviorManager;
     [SerializeField] private GridSystem gridSystem;
     
-    public BuildingPlacer Placer => placer;
-    public BuildingManager Manager => manager;
+    public BuildingPlacer BuildingPlacer => buildingPlacer;
+    public BuildingManager BuildingManager => buildingManager;
+    public BuildingBehaviorManager BehaviorManager => behaviorManager;
     public GridSystem Grid => gridSystem;
     
     private void Awake()
@@ -36,12 +38,14 @@ public class BuildingService : MonoBehaviour
         
         _instance = this;
         
-        // Auto-find components
-        if (placer == null)
-            placer = GetComponent<BuildingPlacer>();
+        if (buildingPlacer == null)
+            buildingPlacer = GetComponent<BuildingPlacer>();
         
-        if (manager == null)
-            manager = GetComponent<BuildingManager>();
+        if (buildingManager == null)
+            buildingManager = GetComponent<BuildingManager>();
+        
+        if (behaviorManager == null)
+            behaviorManager = GetComponent<BuildingBehaviorManager>();
         
         if (gridSystem == null)
             gridSystem = GetComponent<GridSystem>();
@@ -53,8 +57,7 @@ public class BuildingService : MonoBehaviour
         _instance = null;
     }
     
-    // Удобные статические методы
-    public static void StartBuilding(BuildingData data) => Instance.Placer.StartBuildMode(data);
-    public static void StopBuilding() => Instance.Placer.StopBuildMode();
-    public static PlacedBuilding GetBuildingAt(Vector2Int gridPos) => Instance.Manager.GetBuildingAtPosition(gridPos);
+    public static void StartBuilding(BuildingData data) => Instance.BuildingPlacer.StartBuildMode(data);
+    public static void StopBuilding() => Instance.BuildingPlacer.StopBuildMode();
+    public static PlacedBuilding GetBuildingAt(Vector2Int gridPos) => Instance.BuildingManager.GetBuildingAtPosition(gridPos);
 }

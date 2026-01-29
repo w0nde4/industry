@@ -55,12 +55,7 @@ public class ConveyorBuilding : PlacedBuilding
         }
     }
     
-    private void Start()
-    {
-        InitializeConveyor();
-    }
-    
-    private void InitializeConveyor()
+    public void InitializeConveyor()
     {
         var points = ConnectionPoints;
         
@@ -140,7 +135,10 @@ public class ConveyorBuilding : PlacedBuilding
     private async UniTaskVoid MoveResourceToOutput(ResourceInstance resource)
     {
         var distance = Vector3.Distance(_input.WorldPosition, _output.WorldPosition);
-        var duration = distance / settings.conveyorSpeed;
+
+        var speed = settings.conveyorSpeed;
+        
+        var duration = distance / speed;
         
         var tween = resource.transform
             .DOMove(_output.WorldPosition, duration)
@@ -309,10 +307,13 @@ public class ConveyorBuilding : PlacedBuilding
         Gizmos.DrawLine(_input.WorldPosition, _output.WorldPosition);
         
         Gizmos.color = Color.yellow;
-        foreach (var resource in _resourcesOnConveyor
-                     .Where(resource => resource != null))
+        
+        foreach (var resource in _resourcesOnConveyor)
         {
-            Gizmos.DrawWireSphere(resource.transform.position, 0.15f);
+            if (resource != null)
+            {
+                Gizmos.DrawWireSphere(resource.transform.position, 0.15f);                
+            }
         }
     }
     

@@ -8,7 +8,7 @@ public class PlacedBuilding : MonoBehaviour
     
     private Vector2Int _gridPosition;
     private BuildingRotation _currentRotation;
-    private readonly List<IBuildingBehavior> _behaviors = new ();
+    private readonly List<IBuildingBehavior> _behaviors = new();
     
     private ConnectionPoint[] _connectionPoints;
     private ConnectionPoint[] _inputs;
@@ -33,6 +33,12 @@ public class PlacedBuilding : MonoBehaviour
         
         ApplyRotation();
         InitializeConnectionPoints();
+        
+        if (this is ConveyorBuilding conveyor)
+        {
+            conveyor.InitializeConveyor();
+        }
+        
         InitializeBehaviors();
     }
 
@@ -56,15 +62,21 @@ public class PlacedBuilding : MonoBehaviour
             Debug.Log($"[PlacedBuilding] Added behavior: {behavior.GetType().Name}");
         }
 
-        var manager = FindFirstObjectByType<BuildingBehaviorManager>();
+        var service = BuildingService.Instance;
+        if (service == null)
+        {
+            Debug.LogWarning("[PlacedBuilding] BuildingService not found!");
+            return;
+        }
+        
+        var manager = service.BehaviorManager;
         if (manager != null)
         {
             manager.RegisterBuilding(this);
         }
-
         else
         {
-            Debug.LogWarning("[PlacedBuilding] BuildingBehaviorManager not found in scene!");
+            Debug.LogWarning("[PlacedBuilding] BuildingBehaviorManager not assigned to BuildingService!");
         }
     }
 
@@ -123,6 +135,7 @@ public class PlacedBuilding : MonoBehaviour
     private void UpdateConnectionPointsWorldPosition()
     {
         if(_connectionPoints == null) return;
+        
         foreach (var point in _connectionPoints)
         {
             point.UpdateWorldPosition();
@@ -136,6 +149,16 @@ public class PlacedBuilding : MonoBehaviour
             foreach (var point in _connectionPoints)
             {
                 point.OnResourceReceived -= OnResourceReceivedAtPoint;
+            }
+        }
+        
+        var service = BuildingService.Instance;
+        if (service != null)
+        {
+            var manager = service.BehaviorManager;
+            if(manager != null)
+            {
+                manager.UnregisterBuilding(this);
             }
         }
         

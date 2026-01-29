@@ -19,6 +19,8 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   canRotate: 1
   prefab: {fileID: 1899599685221706789, guid: cedab09c41e82f648aa6b3d4393f29ec, type: 3}
+  behaviorConfigs:
+  - {fileID: 0}
   canUpgrade: 0
   upgradeTo: {fileID: 0}
   canMove: 1

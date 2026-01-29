@@ -19,7 +19,10 @@ public static class ConnectionPointHelper
         return building?.Outputs ?? System.Array.Empty<ConnectionPoint>();
     }
     
-    public static ConnectionPoint GetClosestInput(Vector3 position, List<PlacedBuilding> buildings, ConnectionPointSettings settings)
+    public static ConnectionPoint GetClosestInput(
+        Vector3 position,
+        List<PlacedBuilding> buildings,
+        ConnectionPointSettings settings)
     {
         ConnectionPoint closest = null;
         var minDistanceSqr = settings.searchRadius * settings.searchRadius;
@@ -27,6 +30,8 @@ public static class ConnectionPointHelper
         foreach (var building in buildings)
         {
             var inputs = building.Inputs;
+            
+            if(inputs == null || inputs.Length == 0) continue;
             
             foreach (var input in inputs)
             {
@@ -43,7 +48,10 @@ public static class ConnectionPointHelper
         return closest;
     }
     
-    public static ConnectionPoint GetClosestOutput(Vector3 position, List<PlacedBuilding> buildings, ConnectionPointSettings settings)
+    public static ConnectionPoint GetClosestOutput(
+        Vector3 position, 
+        List<PlacedBuilding> buildings, 
+        ConnectionPointSettings settings)
     {
         ConnectionPoint closest = null;
         var minDistanceSqr = settings.searchRadius * settings.searchRadius;
@@ -51,6 +59,8 @@ public static class ConnectionPointHelper
         foreach (var building in buildings)
         {
             var outputs = building.Outputs;
+            
+            if(outputs == null || outputs.Length == 0) continue;
             
             foreach (var output in outputs)
             {
@@ -82,6 +92,8 @@ public static class ConnectionPointHelper
             if (building == point.Owner) continue;
 
             var allPoints = building.ConnectionPoints;
+            
+            if(allPoints == null || allPoints.Length == 0) continue;
             
             foreach (var otherPoint in allPoints)
             {
