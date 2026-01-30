@@ -107,7 +107,7 @@ public class ProductionBehavior : IBuildingBehavior
             return;
         }
 
-        var resource = ResourceService.SpawnResource(
+        var resource = ResourceService.Spawn(
             _config.outputResource,
             _outputPoint.WorldPosition,
             1);
@@ -123,7 +123,7 @@ public class ProductionBehavior : IBuildingBehavior
         }
         else
         {
-            ResourceService.DestroyResource(resource);
+            ResourceService.Destroy(resource);
             
             if (_isOutputBlocked) return;
             
@@ -136,7 +136,7 @@ public class ProductionBehavior : IBuildingBehavior
     {
         if(_connectionPointSettings == null) return null;
         
-        var allBuildings = BuildingService.Instance.BuildingManager.AllBuildings;
+        var allBuildings = BuildingService.Instance.AllBuildings;
         
         ConnectionPointHelper.GetAdjacentConnectionPoints(
             _outputPoint,

@@ -225,7 +225,7 @@ public class ConveyorBuilding : PlacedBuilding
         }
         
         _buildingsCache.Clear();
-        var allBuildings = GameObject.FindObjectsByType<PlacedBuilding>(FindObjectsSortMode.None);
+        var allBuildings = BuildingService.Instance.AllBuildings;
         _buildingsCache.AddRange(allBuildings);
     
         ConnectionPointHelper.GetAdjacentConnectionPoints(
@@ -289,7 +289,7 @@ public class ConveyorBuilding : PlacedBuilding
             var resource = _resourcesOnConveyor[i];
             if (resource != null)
             {
-                ResourceService.DestroyResource(resource);
+                ResourceService.Destroy(resource);
             }
         }
         _resourcesOnConveyor.Clear();

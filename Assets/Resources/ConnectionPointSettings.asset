@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5010ecc3a040038d164e39d32f1732, type: 3}
   m_Name: ConnectionPointSettings
   m_EditorClassIdentifier: Assembly-CSharp::ConnectionPointSettings
-  maxConnectionDistance: 2
-  searchRadius: 1.5
-  adjacentSearchRadius: 1.5
+  maxConnectionDistance: 1
+  searchRadius: 0.5
+  adjacentSearchRadius: 0.5
   inputColor: {r: 0, g: 1, b: 0, a: 1}
   outputColor: {r: 1, g: 0, b: 0, a: 1}
   gizmoSize: 0.2

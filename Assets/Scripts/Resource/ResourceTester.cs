@@ -44,7 +44,7 @@ public class ResourceTester : MonoBehaviour
         
         var spawnPos = spawnCenter + randomOffset;
         
-        var resource = ResourceService.SpawnResource(testResource, spawnPos, spawnAmount);
+        var resource = ResourceService.Spawn(testResource, spawnPos, spawnAmount);
         
         if (resource != null)
         {
@@ -55,12 +55,14 @@ public class ResourceTester : MonoBehaviour
     [Button("Clear All Resources (C)")]
     private void ClearAllResources()
     {
-        var manager = ResourceService.Instance.Manager;
-        var allResources = manager.AllResources.ToArray();
+        var resourceService = ResourceService.Instance;
+        if (resourceService == null) return;
+        
+        var allResources = resourceService.AllResources.ToArray();
         
         foreach (var resource in allResources)
         {
-            manager.DestroyResource(resource);
+            resourceService.DestroyResource(resource);
         }
         
         Debug.Log($"Cleared {allResources.Length} resources");
@@ -69,7 +71,7 @@ public class ResourceTester : MonoBehaviour
     [Button("Log Resources Info")]
     private void LogInfo()
     {
-        var manager = ResourceService.Instance.Manager;
-        Debug.Log($"Active resources: {manager.AllResources.Count}");
+        var resourceService = ResourceService.Instance;
+        Debug.Log($"Active resources: {resourceService.AllResources.Count}");
     }
 }

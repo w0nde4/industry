@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class ProducerTester : MonoBehaviour
@@ -31,8 +30,27 @@ public class ProducerTester : MonoBehaviour
     [Button("Find Producers in Scene")]
     private void FindProducers()
     {
-        var allBuildings = FindObjectsByType<PlacedBuilding>(FindObjectsSortMode.None);
-        var producers = allBuildings.Where(b => b.Behaviors.Any(beh => beh is ProductionBehavior)).ToList();
+        var allBuildings = BuildingService.Instance.AllBuildings;
+        var producers = new System.Collections.Generic.List<PlacedBuilding>();
+        
+        foreach (var building in allBuildings)
+        {
+            var hasProductionBehavior = false;
+            
+            foreach (var behavior in building.Behaviors)
+            {
+                if (behavior is ProductionBehavior)
+                {
+                    hasProductionBehavior = true;
+                    break;
+                }
+            }
+            
+            if (hasProductionBehavior)
+            {
+                producers.Add(building);
+            }
+        }
         
         Debug.Log($"=== Found {producers.Count} Producers ===");
         foreach (var producer in producers)

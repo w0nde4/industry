@@ -57,7 +57,7 @@ public class ConveyorTester : MonoBehaviour
             return;
         }
         
-        var resource = ResourceService.SpawnResource(
+        var resource = ResourceService.Spawn(
             testResource,
             inputPoint.WorldPosition,
             spawnAmount
@@ -66,7 +66,7 @@ public class ConveyorTester : MonoBehaviour
         if (!testConveyor.CanAcceptResource(resource))
         {
             Debug.LogWarning("Conveyor cannot accept resource!");
-            ResourceService.DestroyResource(resource);
+            ResourceService.Destroy(resource);
             return;
         }
         
