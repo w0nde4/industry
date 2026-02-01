@@ -24,7 +24,7 @@ public class BuildingPlacer : MonoBehaviour
         _objectPool.Initialize(settings);
         
         _preview = gameObject.AddComponent<BuildingPreview>();
-        _preview.Initialize(settings, BuildingService.Instance.Grid, _objectPool);
+        _preview.Initialize(settings, GridService.Instance.Grid, _objectPool);
     }
     
     public void StartBuildMode(BuildingData data)
@@ -72,13 +72,14 @@ public class BuildingPlacer : MonoBehaviour
         var gridPos = _preview.GetCurrentGridPosition();
         var rotation = _preview.CurrentRotation;
         var size = data.GetRotatedSize(rotation);
+        var grid = GridService.Instance.Grid;
         
-        if (!BuildingService.Instance.Grid.OccupyArea(gridPos, size, null))
+        if (!grid.OccupyArea(gridPos, size, null))
         {
             return false;
         }
         
-        var worldPos = BuildingService.Instance.Grid.GetCenterPosition(gridPos, size);
+        var worldPos = grid.GetCenterPosition(gridPos, size);
         var buildingObj = Instantiate(data.prefab, worldPos, Quaternion.identity);
         
         var placedBuilding = buildingObj.GetComponent<PlacedBuilding>();
@@ -109,7 +110,7 @@ public class BuildingPlacer : MonoBehaviour
         _movingBuilding = building;
         _originalMovePosition = building.GridPosition;
         
-        BuildingService.Instance.Grid.FreeArea(building.GridPosition, building.Size);
+        GridService.Instance.Grid.FreeArea(building.GridPosition, building.Size);
         
         _preview.StartPreview(building.Data);
         
@@ -125,13 +126,14 @@ public class BuildingPlacer : MonoBehaviour
         
         var newGridPos = _preview.GetCurrentGridPosition();
         var size = _movingBuilding.Size;
+        var grid = GridService.Instance.Grid;
         
-        if (!BuildingService.Instance.Grid.OccupyArea(newGridPos, size, _movingBuilding.gameObject))
+        if (!grid.OccupyArea(newGridPos, size, _movingBuilding.gameObject))
         {
             return false;
         }
         
-        var newWorldPos = BuildingService.Instance.Grid.GetCenterPosition(newGridPos, size);
+        var newWorldPos = grid.GetCenterPosition(newGridPos, size);
         _movingBuilding.transform.position = newWorldPos;
         _movingBuilding.SetGridPosition(newGridPos);
         
@@ -152,7 +154,7 @@ public class BuildingPlacer : MonoBehaviour
         if (!IsInMoveMode)
             return;
         
-        BuildingService.Instance.Grid.OccupyArea(_originalMovePosition, _movingBuilding.Size, _movingBuilding.gameObject);
+        GridService.Instance.Grid.OccupyArea(_originalMovePosition, _movingBuilding.Size, _movingBuilding.gameObject);
         UpdateGridReference(_originalMovePosition, _movingBuilding.Size, _movingBuilding.gameObject);
         
         Debug.Log("Move cancelled");
@@ -163,7 +165,7 @@ public class BuildingPlacer : MonoBehaviour
     
     public bool TryDemolish(Vector3 worldPosition)
     {
-        var gridPos = BuildingService.Instance.Grid.WorldToGridPosition(worldPosition);
+        var gridPos = GridService.Instance.Grid.WorldToGridPosition(worldPosition);
         var building = BuildingService.Instance.GetBuildingAtPosition(gridPos);
 
         if (building != null) return DemolishBuilding(building);
@@ -178,7 +180,7 @@ public class BuildingPlacer : MonoBehaviour
         var gridPos = building.GridPosition;
         var size = building.Size;
         
-        BuildingService.Instance.Grid.FreeArea(gridPos, size);
+        GridService.Instance.Grid.FreeArea(gridPos, size);
         
         OnBuildingDemolished?.Invoke(building);
         
@@ -197,7 +199,7 @@ public class BuildingPlacer : MonoBehaviour
             for (int y = 0; y < size.y; y++)
             {
                 var pos = origin + new Vector2Int(x, y);
-                var cell = BuildingService.Instance.Grid.GetCell(pos);
+                var cell = GridService.Instance.Grid.GetCell(pos);
                 cell?.Occupy(building);
             }
         }

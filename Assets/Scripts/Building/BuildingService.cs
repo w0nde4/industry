@@ -24,14 +24,12 @@ public class BuildingService : MonoBehaviour
     [Title("Service References")]
     [SerializeField] private BuildingPlacer buildingPlacer;
     [SerializeField] private BuildingBehaviorManager behaviorManager;
-    [SerializeField] private GridSystem gridSystem;
     
     [Title("Hierarchy Organization")]
     [SerializeField] private Transform buildingsRoot;
     
     public BuildingPlacer BuildingPlacer => buildingPlacer;
     public BuildingBehaviorManager BehaviorManager => behaviorManager;
-    public GridSystem Grid => gridSystem;
     
     private readonly Dictionary<BuildingCategory, Transform> _categoryRoots = new Dictionary<BuildingCategory, Transform>();
     private readonly Dictionary<BuildingSubType, Transform> _subTypeRoots = new Dictionary<BuildingSubType, Transform>();
@@ -57,9 +55,6 @@ public class BuildingService : MonoBehaviour
         
         if (behaviorManager == null)
             behaviorManager = GetComponent<BuildingBehaviorManager>();
-        
-        if (gridSystem == null)
-            gridSystem = GetComponent<GridSystem>();
         
         if (buildingsRoot == null)
         {

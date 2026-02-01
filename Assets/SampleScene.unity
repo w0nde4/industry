@@ -481,7 +481,6 @@ GameObject:
   m_Component:
   - component: {fileID: 736939106}
   - component: {fileID: 736939105}
-  - component: {fileID: 736939104}
   m_Layer: 0
   m_Name: Resource System
   m_TagString: Untagged
@@ -489,19 +488,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &736939104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736939103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36dfba869e1b4cbab11f40453f03563e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ResourceService
-  manager: {fileID: 736939105}
 --- !u!114 &736939105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,6 +574,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2092434057}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &912120353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912120354}
+  - component: {fileID: 912120355}
+  m_Layer: 0
+  m_Name: Level Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &912120354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912120353}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2092434057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912120355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912120353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bef4dcf164aa49686a79a4ab97573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGenerator
+  settings: {fileID: 11400000, guid: 8e1395bd55572d14289703ab97f0a4a9, type: 2}
+  levelRoot: {fileID: 0}
+  generateOnStart: 1
 --- !u!1 &1227666992
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1227666993
 Transform:
   m_ObjectHideFlags: 0
@@ -860,7 +893,6 @@ GameObject:
   - component: {fileID: 1748560047}
   - component: {fileID: 1748560046}
   - component: {fileID: 1748560045}
-  - component: {fileID: 1748560044}
   - component: {fileID: 1748560043}
   - component: {fileID: 1748560049}
   m_Layer: 0
@@ -900,22 +932,6 @@ MonoBehaviour:
   m_DefaultActionMap: Building
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1748560044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748560042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5efa1c3c752245ed8ff9eda0f75ef72a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingService
-  buildingPlacer: {fileID: 1748560046}
-  buildingManager: {fileID: 1748560047}
-  behaviorManager: {fileID: 1748560049}
-  gridSystem: {fileID: 747637366}
 --- !u!114 &1748560045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,8 +972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663b036b35094378a259bf6b25288cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingPlacer
-  gridSystem: {fileID: 747637366}
-  buildingManager: {fileID: 1748560047}
   settings: {fileID: 11400000, guid: 06b31a411ac437c4ebbd28748d200cc5, type: 2}
 --- !u!114 &1748560047
 MonoBehaviour:
@@ -971,6 +985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668822d4e9a6416087c3e576faa40767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingManager
+  buildingPlacer: {fileID: 1748560046}
+  behaviorManager: {fileID: 1748560049}
   buildingsRoot: {fileID: 0}
 --- !u!4 &1748560048
 Transform:
@@ -1079,6 +1095,7 @@ Transform:
   - {fileID: 736939106}
   - {fileID: 1748560048}
   - {fileID: 747637367}
+  - {fileID: 912120354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

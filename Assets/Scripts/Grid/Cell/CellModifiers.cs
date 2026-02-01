@@ -4,15 +4,12 @@ using UnityEngine;
 [Serializable]
 public class CellModifiers
 {
-    // Базовые модификаторы для генерации
     public bool isSpawnable = true;
     public bool isWalkable = true;
     
-    // Можно расширять дополнительными полями
     public float productionBonus = 1f;
     public string biomeType = "default";
     
-    // Кастомные данные (для будущего расширения)
     [SerializeField] private string customData;
     
     public CellModifiers()

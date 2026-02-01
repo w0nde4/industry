@@ -37,7 +37,7 @@ public class ProductionBehavior : IBuildingBehavior
             Debug.LogError("[ProductionBehavior] ConnectionPointSettings not found in Resources!");
         }
         
-        _gridSystem = BuildingService.Instance.Grid;
+        _gridSystem = GridService.Instance.Grid;
         
         Debug.Log($"[ProductionBehavior] Initialized for {data.buildingName}");
     }
