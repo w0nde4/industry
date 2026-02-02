@@ -10,7 +10,7 @@ public class Block : MonoBehaviour
     
     [Title("Visual")]
     [SerializeField] private Transform cellsContainer;
-    [SerializeField] private GameObject cellPrefab; //SpriteRenderer
+    [SerializeField] private GameObject cellPrefab; // Префаб для одной клетки (SpriteRenderer)
     
     private readonly Dictionary<Vector2Int, GameObject> _cellObjects = new Dictionary<Vector2Int, GameObject>();
     private readonly List<PlacedBuilding> _buildings = new List<PlacedBuilding>();
@@ -43,21 +43,49 @@ public class Block : MonoBehaviour
             return;
         }
         
+        // Создаём контейнер если его нет
+        if (cellsContainer == null)
+        {
+            cellsContainer = new GameObject("Cells").transform;
+            cellsContainer.SetParent(transform);
+            cellsContainer.localPosition = Vector3.zero;
+        }
+        
         ClearVisuals();
+        
+        int skippedNullCells = 0;
+        int skippedNoSprite = 0;
         
         for (int x = 0; x < blockData.BlockSize; x++)
         {
             for (int y = 0; y < blockData.BlockSize; y++)
             {
                 var cellData = blockData.GetCell(x, y);
-                if (cellData == null || cellData.Sprite == null)
+                
+                if (cellData == null)
+                {
+                    skippedNullCells++;
                     continue;
+                }
+                
+                if (cellData.Sprite == null)
+                {
+                    skippedNoSprite++;
+                    continue;
+                }
                 
                 CreateCellVisual(x, y, cellData);
             }
         }
         
-        Debug.Log($"[Block] Generated {_cellObjects.Count} cell visuals");
+        if (_cellObjects.Count == 0)
+        {
+            Debug.LogWarning($"[Block] No cells generated! BlockData: {blockData.BlockName}, NullCells: {skippedNullCells}, NoSprite: {skippedNoSprite}");
+        }
+        else
+        {
+            Debug.Log($"[Block] Generated {_cellObjects.Count} cell visuals (skipped {skippedNoSprite} without sprites)");
+        }
     }
     
     private void CreateCellVisual(int x, int y, CellData cellData)
@@ -79,10 +107,20 @@ public class Block : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = cellData.Sprite;
-            spriteRenderer.sortingOrder = -1;
+            spriteRenderer.sortingOrder = -1; // Под зданиями
         }
         
-        var localPos = new Vector3(x, y, 0);
+        // Позиционирование с учётом pivot спрайта и cellSize
+        // Предполагаем cellSize = 1, pivot спрайта может быть любым
+        var cellSize = 1f;
+        
+        // Позиция центра клетки (для pivot = center)
+        var localPos = new Vector3(
+            x * cellSize + cellSize * 0.5f,  // Центр клетки по X
+            y * cellSize + cellSize * 0.5f,  // Центр клетки по Y
+            0
+        );
+        
         cellObj.transform.localPosition = localPos;
         cellObj.name = $"Cell_{x}_{y}_{cellData.Terrain}";
         
@@ -108,6 +146,9 @@ public class Block : MonoBehaviour
         _cellObjects.Clear();
     }
     
+    /// <summary>
+    /// Применяет данные блока к GridSystem
+    /// </summary>
     public void ApplyToGrid(GridSystem gridSystem)
     {
         if (gridSystem == null || blockData == null)
@@ -156,11 +197,13 @@ public class Block : MonoBehaviour
         if (blockData == null)
             return;
         
+        // Рисуем границы блока
         Gizmos.color = Color.yellow;
         var size = blockData.BlockSize;
         var center = transform.position + new Vector3(size * 0.5f, size * 0.5f, 0);
         Gizmos.DrawWireCube(center, new Vector3(size, size, 0.1f));
         
+        // Рисуем двери
         Gizmos.color = Color.green;
         foreach (var door in blockData.Doors)
         {

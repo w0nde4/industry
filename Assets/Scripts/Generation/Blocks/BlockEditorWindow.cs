@@ -5,7 +5,6 @@ using UnityEditor;
 public class BlockEditorWindow : EditorWindow
 {
     private BlockData _currentBlock;
-    private GameObject _blockPrefab;
     
     private Vector2 _scrollPos;
     private int _selectedCellX = -1;
@@ -16,7 +15,7 @@ public class BlockEditorWindow : EditorWindow
     private CellModifiers _paintModifiers = new CellModifiers();
     
     private bool _showGrid = true;
-    private float _cellDisplaySize = 32f;
+    private const float CellDisplaySize = 32f; // Фиксированный размер
     private readonly Color _gridColor = new Color(0.5f, 0.5f, 0.5f, 0.3f);
     
     private enum EditorMode
@@ -196,16 +195,15 @@ public class BlockEditorWindow : EditorWindow
         
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Grid", EditorStyles.boldLabel);
-        _showGrid = EditorGUILayout.Toggle("Show Grid", _showGrid);
-        _cellDisplaySize = EditorGUILayout.Slider("Cell Size", _cellDisplaySize, 16f, 64f);
+        _showGrid = EditorGUILayout.Toggle("Show Grid Lines", _showGrid);
         EditorGUILayout.EndHorizontal();
         
         EditorGUILayout.Space(5);
         
         var blockSize = _currentBlock.BlockSize;
         var gridRect = GUILayoutUtility.GetRect(
-            blockSize * _cellDisplaySize,
-            blockSize * _cellDisplaySize,
+            blockSize * CellDisplaySize,
+            blockSize * CellDisplaySize,
             GUILayout.ExpandWidth(false),
             GUILayout.ExpandHeight(false)
         );
@@ -222,7 +220,7 @@ public class BlockEditorWindow : EditorWindow
         // Фон
         EditorGUI.DrawRect(gridRect, new Color(0.2f, 0.2f, 0.2f));
         
-        // Клетки
+        // Рисуем клетки
         for (int x = 0; x < blockSize; x++)
         {
             for (int y = 0; y < blockSize; y++)
@@ -232,26 +230,34 @@ public class BlockEditorWindow : EditorWindow
                     continue;
                 
                 var cellRect = new Rect(
-                    gridRect.x + x * _cellDisplaySize,
-                    gridRect.y + (blockSize - 1 - y) * _cellDisplaySize,
-                    _cellDisplaySize,
-                    _cellDisplaySize
+                    gridRect.x + x * CellDisplaySize,
+                    gridRect.y + (blockSize - 1 - y) * CellDisplaySize, // Инвертируем Y
+                    CellDisplaySize,
+                    CellDisplaySize
                 );
                 
+                // Отрисовка спрайта или цвета
                 if (cellData.Sprite != null)
                 {
-                    GUI.DrawTexture(cellRect, cellData.Sprite.texture, ScaleMode.ScaleToFit);
+                    DrawSprite(cellRect, cellData.Sprite);
                 }
                 else
                 {
-                    EditorGUI.DrawRect(cellRect, GetTerrainColor(cellData.Terrain));
+                    // Рисуем только если не пустая клетка
+                    var color = GetTerrainColor(cellData.Terrain);
+                    if (color.a > 0) // Если цвет не прозрачный
+                    {
+                        EditorGUI.DrawRect(cellRect, color);
+                    }
                 }
                 
+                // Выделение выбранной клетки
                 if (x == _selectedCellX && y == _selectedCellY)
                 {
                     EditorGUI.DrawRect(cellRect, new Color(1f, 1f, 0f, 0.3f));
                 }
                 
+                // Сетка
                 if (_showGrid)
                 {
                     Handles.BeginGUI();
@@ -269,6 +275,7 @@ public class BlockEditorWindow : EditorWindow
             }
         }
         
+        // Рисуем двери
         DrawDoors(gridRect, blockSize);
     }
     
@@ -284,10 +291,10 @@ public class BlockEditorWindow : EditorWindow
             foreach (var cell in doorCells)
             {
                 var cellRect = new Rect(
-                    gridRect.x + cell.x * _cellDisplaySize,
-                    gridRect.y + (blockSize - 1 - cell.y) * _cellDisplaySize,
-                    _cellDisplaySize,
-                    _cellDisplaySize
+                    gridRect.x + cell.x * CellDisplaySize,
+                    gridRect.y + (blockSize - 1 - cell.y) * CellDisplaySize,
+                    CellDisplaySize,
+                    CellDisplaySize
                 );
                 
                 Handles.DrawSolidRectangleWithOutline(cellRect, new Color(0f, 1f, 0f, 0.3f), Color.green);
@@ -304,8 +311,8 @@ public class BlockEditorWindow : EditorWindow
         if (e.type == EventType.MouseDown && gridRect.Contains(e.mousePosition))
         {
             var localPos = e.mousePosition - gridRect.position;
-            var cellX = Mathf.FloorToInt(localPos.x / _cellDisplaySize);
-            var cellY = blockSize - 1 - Mathf.FloorToInt(localPos.y / _cellDisplaySize);
+            var cellX = Mathf.FloorToInt(localPos.x / CellDisplaySize);
+            var cellY = blockSize - 1 - Mathf.FloorToInt(localPos.y / CellDisplaySize);
             
             if (cellX >= 0 && cellX < blockSize && cellY >= 0 && cellY < blockSize)
             {
@@ -341,7 +348,9 @@ public class BlockEditorWindow : EditorWindow
     
     private void EraseCell(int x, int y)
     {
-        _currentBlock.SetCell(x, y, new CellData());
+        // Создаём пустую клетку с прозрачным цветом
+        var emptyCellData = new CellData(null, TerrainType.Grass, new CellModifiers());
+        _currentBlock.SetCell(x, y, emptyCellData);
     }
     
     private void DrawSelectedCellInfo()
@@ -356,6 +365,7 @@ public class BlockEditorWindow : EditorWindow
         if (cellData != null)
         {
             EditorGUILayout.LabelField($"Terrain: {cellData.Terrain}");
+            EditorGUILayout.LabelField($"Sprite: {(cellData.Sprite != null ? cellData.Sprite.name : "None")}");
             EditorGUILayout.LabelField($"Spawnable: {cellData.Modifiers.isSpawnable}");
             EditorGUILayout.LabelField($"Walkable: {cellData.Modifiers.isWalkable}");
         }
@@ -397,6 +407,7 @@ public class BlockEditorWindow : EditorWindow
             {
                 _currentBlock.InitializeCells();
                 EditorUtility.SetDirty(_currentBlock);
+                Repaint();
             }
         }
         
@@ -432,12 +443,44 @@ public class BlockEditorWindow : EditorWindow
         EditorUtility.SetDirty(_currentBlock);
         
         Debug.Log($"[BlockEditor] Created new BlockData at {path}");
+        
+        Repaint();
     }
     
     private void CreatePrefabFromBlock()
     {
         if (_currentBlock == null)
+        {
+            Debug.LogError("[BlockEditor] No block data selected!");
             return;
+        }
+        
+        // Проверяем что у блока есть хотя бы одна клетка со спрайтом
+        bool hasSprites = false;
+        for (int x = 0; x < _currentBlock.BlockSize; x++)
+        {
+            for (int y = 0; y < _currentBlock.BlockSize; y++)
+            {
+                var cell = _currentBlock.GetCell(x, y);
+                if (cell != null && cell.Sprite != null)
+                {
+                    hasSprites = true;
+                    break;
+                }
+            }
+            if (hasSprites) break;
+        }
+        
+        if (!hasSprites)
+        {
+            if (!EditorUtility.DisplayDialog(
+                "No Sprites", 
+                "Block has no cells with sprites. Create empty prefab?", 
+                "Yes", "No"))
+            {
+                return;
+            }
+        }
         
         var path = EditorUtility.SaveFilePanelInProject(
             "Create Block Prefab",
@@ -449,19 +492,48 @@ public class BlockEditorWindow : EditorWindow
         if (string.IsNullOrEmpty(path))
             return;
         
+        // Создаём временный объект в сцене
         var blockObj = new GameObject(_currentBlock.BlockName);
+        blockObj.transform.position = Vector3.zero;
+        
+        // Добавляем компонент Block
         var block = blockObj.AddComponent<Block>();
         
+        // Устанавливаем BlockData через SerializedObject (для приватного поля)
         var serializedBlock = new SerializedObject(block);
         serializedBlock.FindProperty("blockData").objectReferenceValue = _currentBlock;
         serializedBlock.ApplyModifiedProperties();
         
+        // ВАЖНО: Генерируем визуалы ДО сохранения в префаб
+        // Это создаст все дочерние GameObject'ы с SpriteRenderer'ами
         block.GenerateVisuals();
         
-        PrefabUtility.SaveAsPrefabAsset(blockObj, path);
-        DestroyImmediate(blockObj);
+        // Сохраняем как префаб (со всеми дочерними объектами)
+        var prefab = PrefabUtility.SaveAsPrefabAsset(blockObj, path);
         
-        Debug.Log($"[BlockEditor] Created prefab at {path}");
+        if (prefab != null)
+        {
+            // Подсчитываем количество клеток
+            int cellCount = 0;
+            var cellsContainer = blockObj.transform.Find("Cells");
+            if (cellsContainer != null)
+            {
+                cellCount = cellsContainer.childCount;
+            }
+            
+            Debug.Log($"[BlockEditor] Created prefab at {path} with {cellCount} cell visuals");
+            
+            // Выделяем созданный префаб в Project
+            Selection.activeObject = prefab;
+            EditorGUIUtility.PingObject(prefab);
+        }
+        else
+        {
+            Debug.LogError("[BlockEditor] Failed to create prefab!");
+        }
+        
+        // Удаляем временный объект из сцены
+        DestroyImmediate(blockObj);
     }
     
     private void AddDoor(DoorSide side)
@@ -497,8 +569,31 @@ public class BlockEditorWindow : EditorWindow
             TerrainType.Water => new Color(0.2f, 0.4f, 0.8f),
             TerrainType.Obstacle => new Color(0.3f, 0.2f, 0.1f),
             TerrainType.Destructible => new Color(0.8f, 0.4f, 0.2f),
-            _ => Color.white
+            _ => new Color(0, 0, 0, 0) // Прозрачный для пустых клеток
         };
+    }
+    
+    /// <summary>
+    /// Корректная отрисовка спрайта с учётом UV координат
+    /// </summary>
+    private void DrawSprite(Rect rect, Sprite sprite)
+    {
+        if (sprite == null || sprite.texture == null)
+            return;
+
+        var texture = sprite.texture;
+        var spriteRect = sprite.textureRect;
+        
+        // Нормализуем UV координаты
+        var uvRect = new Rect(
+            spriteRect.x / texture.width,
+            spriteRect.y / texture.height,
+            spriteRect.width / texture.width,
+            spriteRect.height / texture.height
+        );
+        
+        // Отрисовываем с правильными UV
+        GUI.DrawTextureWithTexCoords(rect, texture, uvRect);
     }
 }
 #endif
