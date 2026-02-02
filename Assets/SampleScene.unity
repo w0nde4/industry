@@ -948,15 +948,17 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   buildingHotkeys:
   - {fileID: 11400000, guid: 0a8bc68016ec42c42842872e69ba940a, type: 2}
-  - {fileID: 11400000, guid: b20ebb5a14f0a3140bda6242be9b1cdc, type: 2}
+  - {fileID: 11400000, guid: bdc0c10ab57faa242ae9c772d6cff792, type: 2}
   - {fileID: 11400000, guid: 6ed52d877fbcb824ab19636a98bcd28b, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   conveyorHotkeys:
   - {fileID: 11400000, guid: 6d882c3e8b023894e983032bb1a3e6d9, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: ea53cdc1c25dcbe4ab22a7c897de26c4, type: 2}
+  - {fileID: 11400000, guid: 4cbeb4dbfa2f1964695d18dca703b2f5, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

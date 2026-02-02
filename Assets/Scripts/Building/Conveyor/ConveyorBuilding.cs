@@ -134,15 +134,29 @@ public class ConveyorBuilding : PlacedBuilding
     
     private async UniTaskVoid MoveResourceToOutput(ResourceInstance resource)
     {
-        var distance = Vector3.Distance(_input.WorldPosition, _output.WorldPosition);
-
         var speed = settings.conveyorSpeed;
-        
-        var duration = distance / speed;
-        
-        var tween = resource.transform
-            .DOMove(_output.WorldPosition, duration)
-            .SetEase(Ease.Linear);
+        Tween tween;
+
+        if (conveyorType == ConveyorType.Corner)
+        {
+            var path = CalculateCornerPath();
+            var pathLength = CalculatePathLength(path);
+            var duration = pathLength / speed;
+
+            tween = resource.transform
+                .DOPath(path, duration, PathType.CatmullRom)
+                .SetEase(Ease.Linear);
+        }
+
+        else
+        {
+            var distance = Vector3.Distance(_input.WorldPosition, _output.WorldPosition);
+            var duration = distance / speed;
+            
+            tween = resource.transform
+                .DOMove(_output.WorldPosition, duration)
+                .SetEase(Ease.Linear);
+        }
         
         _activeTweens[resource] = tween;
         
@@ -157,25 +171,70 @@ public class ConveyorBuilding : PlacedBuilding
         
         TryTransferToNextConveyor(resource);
     }
+
+    private Vector3[] CalculateCornerPath()
+    {
+        var inputPos = _input.WorldPosition;
+        var outputPos = _output.WorldPosition;
     
+        var midPoint = (inputPos + outputPos) / 2f;
+    
+        var dirToMid = (midPoint - transform.position).normalized;
+    
+        var arcCenter = transform.position - dirToMid * settings.arcRadius;
+    
+        return new Vector3[]
+        {
+            inputPos,
+            arcCenter,
+            outputPos
+        };
+    }
+
+    private float CalculatePathLength(Vector3[] path)
+    {
+        var length = 0f;
+
+        for (int i = 0; i < path.Length - 1; i++)
+        {
+            length += Vector3.Distance(path[i], path[i + 1]);
+        }
+        
+        return length;
+    }
+
     private void TryTransferToNextConveyor(ResourceInstance resource)
     {
-        var nextConveyor = FindNextConveyor();
+        var nextPoint = FindNextConnectionPoint();
         
-        if (nextConveyor != null && nextConveyor.CanAcceptResource(resource))
+        if (nextPoint != null)
         {
-            _resourcesOnConveyor.Remove(resource);
-            nextConveyor.AcceptResource(resource);
-            
-            Debug.Log($"[ConveyorBuilding] Transferred {resource.Data.resourceName} to next conveyor");
+            var nextConveyor = nextPoint.Owner.GetComponent<ConveyorBuilding>();
+
+            if (nextConveyor != null)
+            {
+                if(nextConveyor.CanAcceptResource(resource))
+                {
+                    _resourcesOnConveyor.Remove(resource);
+                    nextConveyor.AcceptResource(resource);
+                    
+                    Debug.Log($"[ConveyorBuilding] Transferred {resource.Data.resourceName} to next conveyor");
+                    return;
+                }
+            }
+            else
+            {
+                _resourcesOnConveyor.Remove(resource);
+                nextPoint.ReceiveResource(resource);
+                
+                return;
+            }
         }
-        else
-        {
-            _isOutputBlocked = true;
-            Debug.Log($"[ConveyorBuilding] Output blocked, resource waiting at output");
-            
-            CheckOutputUnblock(resource).Forget();
-        }
+
+        _isOutputBlocked = true;
+        Debug.Log($"[ConveyorBuilding] Output blocked, resource waiting at output");
+    
+        CheckOutputUnblock(resource).Forget();
     }
     
     private async UniTaskVoid CheckOutputUnblock(ResourceInstance resource)
@@ -190,58 +249,77 @@ public class ConveyorBuilding : PlacedBuilding
                 return;
             }
             
-            var nextConveyor = FindNextConveyor();
+            var nextPoint = FindNextConnectionPoint();
 
-            if (nextConveyor == null || !nextConveyor.CanAcceptResource(resource)) continue;
+            if (nextPoint == null) continue;
+        
+            var nextConveyor = nextPoint.Owner.GetComponent<ConveyorBuilding>();
+        
+            if (nextConveyor != null)
+            {
+                if (!nextConveyor.CanAcceptResource(resource)) continue;
             
-            _resourcesOnConveyor.Remove(resource);
-            nextConveyor.AcceptResource(resource);
-                
+                _resourcesOnConveyor.Remove(resource);
+                nextConveyor.AcceptResource(resource);
+            }
+            else
+            {
+                _resourcesOnConveyor.Remove(resource);
+                nextPoint.ReceiveResource(resource);
+            }
+        
             _isOutputBlocked = false;
-                
+        
             Debug.Log($"[ConveyorBuilding] Output unblocked, transferred resource");
             return;
         }
     }
     
-    private ConveyorBuilding FindNextConveyor()
+    private ConnectionPoint FindNextConnectionPoint()
     {
         if (_output == null)
         {
             Debug.LogError("[ConveyorBuilding] _output is null!");
             return null;
         }
-    
+
         if (settings == null)
         {
             Debug.LogError("[ConveyorBuilding] settings is null!");
             return null;
         }
-        
+    
         if (_connectionPointSettings == null)
         {
             Debug.LogError("[ConveyorBuilding] _connectionPointSettings is null!");
             return null;
         }
-        
+    
         _buildingsCache.Clear();
         var allBuildings = BuildingService.Instance.AllBuildings;
         _buildingsCache.AddRange(allBuildings);
-    
+
         ConnectionPointHelper.GetAdjacentConnectionPoints(
             _output,
             _buildingsCache,
             _connectionPointSettings,
             _adjacentCache
         );
-    
+        
+        Debug.Log($"[ConveyorBuilding {GridPosition}] Output at {_output.WorldPosition}, found {_adjacentCache.Count} adjacent points");
+        
+        foreach (var point in _adjacentCache)
+        {
+            Debug.Log($"  - {point.Type} at {point.WorldPosition}, owner: {point.Owner.Data.buildingName} ({point.Owner.GridPosition})");
+        }
+
         ConnectionPoint closestInput = null;
         var minDistance = float.MaxValue;
-    
+
         foreach (var point in _adjacentCache)
         {
             if(point.Type != ConnectionType.Input) continue;
-            
+        
             var distance = Vector3.Distance(_output.WorldPosition, point.WorldPosition);
 
             if (distance < minDistance)
@@ -251,17 +329,12 @@ public class ConveyorBuilding : PlacedBuilding
             }
         }
 
-        if (closestInput == null) return null;
-        
-        var conveyor = closestInput.Owner.GetComponent<ConveyorBuilding>();
-        
-        if (conveyor != null)
+        if (closestInput != null)
         {
-            Debug.Log($"[ConveyorBuilding {GridPosition}] Found next conveyor at {conveyor.GridPosition}");
+            Debug.Log($"[ConveyorBuilding {GridPosition}] Found next input at {closestInput.Owner.Data.buildingName} ({closestInput.Owner.GridPosition})");
         }
         
-        return conveyor;
-
+        return closestInput;
     }
     
     #endregion

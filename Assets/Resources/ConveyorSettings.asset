@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorSettings
   conveyorSpeed: 2
   maxResourcesPerConveyor: 5
-  autoConnectDistance: 1.5
+  arcRadius: -0.12
   straightConveyorColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   cornerConveyorColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   splitterConveyorColor: {r: 0, g: 0, b: 1, a: 1}

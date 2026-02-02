@@ -77,7 +77,7 @@ public static class ConnectionPointHelper
         return closest;
     }
     
-    public static void GetAdjacentConnectionPoints(
+    public static void GetAdjacentConnectionPoints( //check AreGridNeighbors - two neighboring buildings on grid
         ConnectionPoint point, 
         List<PlacedBuilding> buildings, 
         ConnectionPointSettings settings, 

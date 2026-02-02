@@ -13,6 +13,10 @@ public class ConveyorSettings : ScriptableObject
     [MinValue(1)]
     [Tooltip("Максимальное количество ресурсов на одном конвейере")]
     public int maxResourcesPerConveyor = 5;
+
+    [Title("Capacity")] 
+    [Tooltip("Радиус дуги для угловых конвейеров")]
+    public float arcRadius = 0.3f;
     
     [Title("Visuals")]
     public Color straightConveyorColor = Color.gray;

@@ -114,23 +114,23 @@ public class ConnectionPoint : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        UpdateWorldPosition();
-        
         var settings = GetSettings();
+        var drawPosition = _owner != null ? _worldPosition : transform.position;
+        
         Gizmos.color = type == ConnectionType.Input ? settings.inputColor : settings.outputColor;
-        Gizmos.DrawWireSphere(_worldPosition, settings.gizmoSize);
+        Gizmos.DrawWireSphere(drawPosition, settings.gizmoSize);
         
         var direction = transform.up * settings.directionLineLength;
-        Gizmos.DrawLine(_worldPosition, _worldPosition + direction);
+        Gizmos.DrawLine(drawPosition, drawPosition + direction);
     }
     
     private void OnDrawGizmosSelected()
     {
-        UpdateWorldPosition();
-        
         var settings = GetSettings();
+        var drawPosition = _owner != null ? _worldPosition : transform.position;
+        
         Gizmos.color = type == ConnectionType.Input ? settings.inputColor : settings.outputColor;
-        Gizmos.DrawSphere(_worldPosition, settings.gizmoSize);
+        Gizmos.DrawSphere(drawPosition, settings.gizmoSize);
         
         #if UNITY_EDITOR
         var style = new GUIStyle
@@ -141,7 +141,7 @@ public class ConnectionPoint : MonoBehaviour
             },
             fontSize = 12
         };
-        UnityEditor.Handles.Label(_worldPosition + Vector3.up * 0.5f, type.ToString(), style);
+        UnityEditor.Handles.Label(drawPosition + Vector3.up * 0.5f, type.ToString(), style);
         #endif
     }
     
