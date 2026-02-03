@@ -94,17 +94,14 @@ public class LevelGenerator : MonoBehaviour
         
         // Шаг 1: Размещаем стартовый блок
         PlaceStarterBlock(level);
-        
         await UniTask.Yield();
         
         // Шаг 2: Размещаем обязательные блоки
         await PlaceMandatoryBlocks(level);
-        
         await UniTask.Yield();
         
         // Шаг 3: Заполняем остальные позиции
         await FillRemainingPositions(level);
-        
         await UniTask.Yield();
         
         // Шаг 4: Валидация
@@ -133,7 +130,6 @@ public class LevelGenerator : MonoBehaviour
             _currentLevel = null;
         }
         
-        // Очищаем все дочерние объекты levelRoot
         while (levelRoot.childCount > 0)
         {
             var child = levelRoot.GetChild(0);
@@ -199,14 +195,13 @@ public class LevelGenerator : MonoBehaviour
     {
         var positions = GetEmptyPositions(level);
         
-        // Перемешиваем позиции
         Shuffle(positions);
         
         foreach (var pos in positions)
         {
             if (_random.NextDouble() > settings.BlockPlacementChance)
             {
-                continue; // Пропускаем эту позицию
+                continue;
             }
             
             var blockData = SelectRandomBlock(level, pos);
@@ -224,7 +219,6 @@ public class LevelGenerator : MonoBehaviour
             await UniTask.Yield();
         }
         
-        // Проверяем минимальное количество боевых блоков
         await EnsureMinimumCombatBlocks(level);
     }
     
@@ -295,7 +289,6 @@ public class LevelGenerator : MonoBehaviour
     
     private bool CanPlaceBlock(GeneratedLevel level, BlockData blockData, Vector2Int position)
     {
-        // Проверка лимита повторений
         if (!blockData.CanRepeat)
         {
             if (GetBlockUsageCount(blockData) >= 1)
@@ -306,11 +299,9 @@ public class LevelGenerator : MonoBehaviour
             return false;
         }
         
-        // Проверка соседей
         if (!CheckNeighborConstraints(level, blockData, position))
             return false;
         
-        // Проверка периметра (если нужно)
         if (settings.PreventFullPerimeterClosure)
         {
             if (!CheckPerimeterConstraint(level, position))
@@ -331,7 +322,6 @@ public class LevelGenerator : MonoBehaviour
             if (neighbor == null)
                 continue;
             
-            // Проверяем, разрешены ли эти блоки как соседи
             if (!blockData.CanBeNeighborWith(neighbor.Data.BlockType))
                 return false;
             
@@ -345,17 +335,14 @@ public class LevelGenerator : MonoBehaviour
     private bool CheckPerimeterConstraint(GeneratedLevel level, Vector2Int position)
     {
         // TODO: Реализовать проверку что закрытые блоки не окружают весь периметр
-        // Пока упрощенная версия
         return true;
     }
     
     private Block CreateBlock(BlockData blockData, Vector2Int gridPosition)
     {
-        // Создаём простой GameObject с компонентом Block
         var blockObj = new GameObject($"Block_{blockData.BlockName}_{gridPosition.x}_{gridPosition.y}");
         blockObj.transform.SetParent(levelRoot);
         
-        // Позиционируем блок (каждый блок 16x16 ячеек)
         var worldPos = new Vector3(
             gridPosition.x * blockData.BlockSize,
             gridPosition.y * blockData.BlockSize,
@@ -377,7 +364,6 @@ public class LevelGenerator : MonoBehaviour
     {
         Debug.Log("[LevelGenerator] Validating level...");
         
-        // Проверяем двери между соседними блоками
         for (int x = 0; x < level.GridSize.x; x++)
         {
             for (int y = 0; y < level.GridSize.y; y++)

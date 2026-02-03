@@ -38,14 +38,31 @@ public class BuildingBehaviorManager : MonoBehaviour
     private void Update()
     {
         var deltaTime = Time.deltaTime;
-        
-        foreach (var building in _managedBuildings)
+    
+        for (int i = _managedBuildings.Count - 1; i >= 0; i--)
         {
-            if (building == null || building.Behaviors == null) continue;
-            
+            var building = _managedBuildings[i];
+        
+            if (building == null)
+            {
+                _managedBuildings.RemoveAt(i);
+                continue;
+            }
+        
+            if (building.Behaviors == null) continue;
+        
             foreach (var behavior in building.Behaviors)
             {
-                behavior?.OnTick(deltaTime);
+                if (behavior == null) continue;
+            
+                try
+                {
+                    behavior.OnTick(deltaTime);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"[BuildingBehaviorManager] Exception in {behavior.GetType().Name}.OnTick: {e.Message}\n{e.StackTrace}");
+                }
             }
         }
     }

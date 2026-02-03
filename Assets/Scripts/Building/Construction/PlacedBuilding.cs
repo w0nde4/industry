@@ -40,6 +40,29 @@ public class PlacedBuilding : MonoBehaviour
         }
         
         InitializeBehaviors();
+        SetOccupiedCellsUnwalkable();
+    }
+    
+    private void SetOccupiedCellsUnwalkable()
+    {
+        var grid = GridService.Instance.Grid;
+    
+        for (int x = 0; x < Size.x; x++)
+        {
+            for (int y = 0; y < Size.y; y++)
+            {
+                var cellPos = _gridPosition + new Vector2Int(x, y);
+                var cell = grid.GetCell(cellPos);
+            
+                if (cell != null)
+                {
+                    cell.Modifiers.isWalkable = false;
+                }
+            }
+        }
+    
+        var pathfinding = FindObjectOfType<PathfindingSystem>();
+        pathfinding?.InvalidateCache();
     }
 
     private void InitializeBehaviors()
@@ -144,6 +167,8 @@ public class PlacedBuilding : MonoBehaviour
 
     public void Demolish()
     {
+        SetOccupiedCellsWalkable();
+    
         if(_connectionPoints != null)
         {
             foreach (var point in _connectionPoints)
@@ -151,7 +176,7 @@ public class PlacedBuilding : MonoBehaviour
                 point.OnResourceReceived -= OnResourceReceivedAtPoint;
             }
         }
-        
+    
         var service = BuildingService.Instance;
         if (service != null)
         {
@@ -161,8 +186,41 @@ public class PlacedBuilding : MonoBehaviour
                 manager.UnregisterBuilding(this);
             }
         }
-        
+    
         OnBuildingDestroyed?.Invoke(this);
         Destroy(gameObject);
+    }
+    
+    private void SetOccupiedCellsWalkable()
+    {
+        var grid = GridService.Instance.Grid;
+    
+        for (int x = 0; x < Size.x; x++)
+        {
+            for (int y = 0; y < Size.y; y++)
+            {
+                var cellPos = _gridPosition + new Vector2Int(x, y);
+                var cell = grid.GetCell(cellPos);
+            
+                if (cell != null)
+                {
+                    cell.Modifiers.isWalkable = true;
+                }
+            }
+        }
+    
+        var pathfinding = FindObjectOfType<PathfindingSystem>();
+        pathfinding?.InvalidateCache();
+    
+        var enemies = FindObjectsOfType<Enemy>();
+        var baseCore = FindObjectOfType<BaseCore>();
+    
+        if (baseCore != null)
+        {
+            foreach (var enemy in enemies)
+            {
+                enemy.RecalculatePath(baseCore.transform.position);
+            }
+        }
     }
 }

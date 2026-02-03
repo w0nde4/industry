@@ -16,83 +16,83 @@ MonoBehaviour:
   blockType: 1
   blockSize: 16
   cells:
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -144,51 +144,51 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -272,35 +272,35 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -344,18 +344,18 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -400,27 +400,27 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -488,10 +488,10 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -528,19 +528,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -616,10 +616,10 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -656,19 +656,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -784,19 +784,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -912,19 +912,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1040,19 +1040,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1144,10 +1144,10 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -1168,19 +1168,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1264,18 +1264,18 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -1296,19 +1296,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1424,19 +1424,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1552,19 +1552,19 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1616,10 +1616,10 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -1680,27 +1680,27 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1728,26 +1728,26 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1252956991, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 1
     modifiers:
-      isSpawnable: 1
+      isSpawnable: 0
       isWalkable: 1
       productionBonus: 1
       biomeType: default
@@ -1808,27 +1808,27 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
@@ -1936,35 +1936,35 @@ MonoBehaviour:
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
-  - sprite: {fileID: -1541522577, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
-    terrainType: 0
+  - sprite: {fileID: 1474305133, guid: 2e4cb680f10f9604db34e2c67849cb0a, type: 3}
+    terrainType: 4
     modifiers:
-      isSpawnable: 1
-      isWalkable: 1
+      isSpawnable: 0
+      isWalkable: 0
       productionBonus: 1
       biomeType: default
       customData: 
