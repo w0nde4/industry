@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,6 +25,8 @@ public class EnemySpawner : MonoBehaviour
     [ShowInInspector, ReadOnly]
     private bool _isSpawning;
     
+    private CancellationTokenSource _tokenSource;
+    
     private void Start()
     {
         if (autoStart)
@@ -37,23 +41,38 @@ public class EnemySpawner : MonoBehaviour
         if (_isSpawning) return;
         
         _isSpawning = true;
-        SpawnLoop().Forget();
+        
+        _tokenSource?.Cancel();
+        _tokenSource?.Dispose();
+        
+        _tokenSource = new CancellationTokenSource();
+        SpawnLoop(_tokenSource.Token).Forget();
     }
     
     [Button("Stop Spawning")]
     public void StopSpawning()
     {
         _isSpawning = false;
+        
+        _tokenSource?.Cancel();
+        _tokenSource?.Dispose();
+        
+        _tokenSource = null; 
     }
     
-    private async UniTaskVoid SpawnLoop()
+    private async UniTaskVoid SpawnLoop(CancellationToken token)
     {
-        while (_isSpawning)
+        try
         {
-            SpawnEnemy();
+            while (_isSpawning)
+            {
+                SpawnEnemy();
             
-            await UniTask.Delay((int)(spawnInterval * 1000));
+                await UniTask.Delay((int)(spawnInterval * 1000), cancellationToken: token);
+            }   
         }
+        catch (System.OperationCanceledException)
+        { }
     }
     
     private void SpawnEnemy()
@@ -86,7 +105,12 @@ public class EnemySpawner : MonoBehaviour
         
         Debug.Log($"[EnemySpawner] Spawned {enemyData.enemyName}. Total spawned: {_spawnedCount}");
     }
-    
+
+    private void OnDestroy()
+    {
+        StopSpawning();
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

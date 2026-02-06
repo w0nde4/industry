@@ -196,22 +196,27 @@ public class TurretBehavior : IBuildingBehavior
             Debug.LogWarning($"[TurretBehavior] Received wrong resource type! Expected {_config.ammoResource.resourceName}, got {resource.Data.resourceName}");
             return;
         }
-        
+    
         if (_ammoBuffer >= _config.maxAmmoBuffer)
         {
             Debug.LogWarning($"[TurretBehavior] Ammo buffer full!");
             return;
         }
-        
+    
         _ammoBuffer += resource.Amount;
-        
+    
         if (_ammoBuffer > _config.maxAmmoBuffer)
         {
             _ammoBuffer = _config.maxAmmoBuffer;
         }
-        
+    
+        if (PlayerResourceManager.Instance != null)
+        {
+            PlayerResourceManager.Instance.OnResourceConsumed(resource.Data, resource.Amount);
+        }
+    
         Debug.Log($"[TurretBehavior] Received {resource.Data.resourceName} x{resource.Amount}. Ammo buffer: {_ammoBuffer}/{_config.maxAmmoBuffer}");
-        
+    
         ResourceService.Destroy(resource);
     }
     

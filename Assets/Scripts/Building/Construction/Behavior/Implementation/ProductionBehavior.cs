@@ -86,8 +86,13 @@ public class ProductionBehavior : IBuildingBehavior
     {
         _accumulatedResources++;
         
+        if (PlayerResourceManager.Instance != null)
+        {
+            PlayerResourceManager.Instance.OnResourceProduced(_config.outputResource, 1);
+        }
+    
         Debug.Log($"[ProductionBehavior] Produced {_config.outputResource.resourceName}. Accumulated: {_accumulatedResources}/{_config.maxOutputStack}");
-        
+    
         TryPushAccumulatedResources();
     }
 

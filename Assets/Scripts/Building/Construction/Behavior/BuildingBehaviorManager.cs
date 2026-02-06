@@ -7,6 +7,9 @@ public class BuildingBehaviorManager : MonoBehaviour
 {
     private List<PlacedBuilding> _managedBuildings = new List<PlacedBuilding>();
     
+    private int _cleanupCounter = 0;
+    private const int CLEANUP_INTERVAL = 60;
+    
     [ShowInInspector, ReadOnly]
     private int ActiveBehaviorCount => CalculateActiveBehaviorCount();
     
@@ -21,10 +24,17 @@ public class BuildingBehaviorManager : MonoBehaviour
     
     public void RegisterBuilding(PlacedBuilding building)
     {
-        if (_managedBuildings.Contains(building)) return;
-        
+        if (_managedBuildings.Contains(building))
+        {
+            Debug.LogError($"[BuildingBehaviorManager] {building.Data.buildingName} already registered!");
+            return;
+        }
+    
         _managedBuildings.Add(building);
-        Debug.Log($"[BuildingBehaviorManager] Registered {building.Data.buildingName}");
+    
+        var behaviorCount = building.Behaviors?.Count ?? 0;
+    
+        Debug.Log($"[BuildingBehaviorManager] Registered {building.Data.buildingName} with {behaviorCount} behaviors. Total buildings: {_managedBuildings.Count}");
     }
     
     public void UnregisterBuilding(PlacedBuilding building)
@@ -39,22 +49,21 @@ public class BuildingBehaviorManager : MonoBehaviour
     {
         var deltaTime = Time.deltaTime;
     
-        for (int i = _managedBuildings.Count - 1; i >= 0; i--)
+        _cleanupCounter++;
+        if (_cleanupCounter >= CLEANUP_INTERVAL)
         {
-            var building = _managedBuildings[i];
-        
-            if (building == null)
-            {
-                _managedBuildings.RemoveAt(i);
-                continue;
-            }
-        
-            if (building.Behaviors == null) continue;
-        
+            _managedBuildings.RemoveAll(b => b == null);
+            _cleanupCounter = 0;
+        }
+
+        foreach (var building in _managedBuildings)
+        {
+            if (building == null || building.Behaviors == null) continue;
+    
             foreach (var behavior in building.Behaviors)
             {
                 if (behavior == null) continue;
-            
+        
                 try
                 {
                     behavior.OnTick(deltaTime);

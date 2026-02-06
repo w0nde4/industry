@@ -279,13 +279,21 @@ public class GridSystem : MonoBehaviour
         var newMaxBounds = _maxBounds;
         
         if (targetPosition.x < _minBounds.x)
-            newMinBounds.x = targetPosition.x - settings.expansionStep;
+            newMinBounds.x = Mathf.Max(targetPosition.x, _minBounds.x - settings.expansionStep);
         if (targetPosition.x >= _maxBounds.x)
-            newMaxBounds.x = targetPosition.x + settings.expansionStep;
+            newMaxBounds.x = Mathf.Min(targetPosition.x + 1, _maxBounds.x + settings.expansionStep);
         if (targetPosition.y < _minBounds.y)
-            newMinBounds.y = targetPosition.y - settings.expansionStep;
+            newMinBounds.y = Mathf.Max(targetPosition.y, _minBounds.y - settings.expansionStep);
         if (targetPosition.y >= _maxBounds.y)
-            newMaxBounds.y = targetPosition.y + settings.expansionStep;
+            newMaxBounds.y = Mathf.Min(targetPosition.y + 1, _maxBounds.y + settings.expansionStep);
+        
+        var cellsToCreate = (newMaxBounds.x - newMinBounds.x) * (newMaxBounds.y - newMinBounds.y) - _cells.Count;
+    
+        if (cellsToCreate > 10000)
+        {
+            Debug.LogError($"[GridSystem] Attempted to create {cellsToCreate} cells at once! Blocked.");
+            return;
+        }
         
         for (int x = newMinBounds.x; x < newMaxBounds.x; x++)
         {

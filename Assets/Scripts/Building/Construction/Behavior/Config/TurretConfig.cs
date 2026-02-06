@@ -42,6 +42,7 @@ public class TurretConfig : BehaviorConfig
     
     public override IBuildingBehavior CreateBehavior()
     {
+        Debug.Log($"[TurretConfig] Creating TurretBehavior from {name}");
         return new TurretBehavior(this);
     }
 }

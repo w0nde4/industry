@@ -93,13 +93,11 @@ public class ResourcePool : MonoBehaviour
         
         if (instance == null)
         {
-            instance = CreateNewInstance();
-            
             if (_activeResources.Count + _pool.Count >= MAX_POOL_SIZE)
             {
                 Debug.LogWarning($"[ResourcePool] Reached MAX_POOL_SIZE ({MAX_POOL_SIZE}). Consider increasing it.");
             }
-            
+        
             instance = CreateNewInstance();
         }
         
@@ -139,10 +137,14 @@ public class ResourcePool : MonoBehaviour
     
     public void ClearAll()
     {
-        foreach (var instance in _activeResources.ToList()
-                     .Where(instance => instance != null))
+        var temp = new List<ResourceInstance>(_activeResources);
+        
+        foreach (var instance in temp)
         {
-            Destroy(instance.gameObject);
+            if (instance != null)
+            {
+                Destroy(instance.gameObject);
+            }
         }
         _activeResources.Clear();
         

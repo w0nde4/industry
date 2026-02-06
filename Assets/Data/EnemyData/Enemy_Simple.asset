@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 
   maxHP: 100
   moveSpeed: 2
-  damageToBase: 10
+  damageToBase: 1003
   sprite: {fileID: 0}
   enemyColor: {r: 1, g: 0, b: 0, a: 1}
   prefab: {fileID: 4921722192152782480, guid: 2e532e9e2fca00848a31b3d32cddd16f, type: 3}

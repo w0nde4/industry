@@ -8,7 +8,7 @@ public class PlacedBuilding : MonoBehaviour
     
     private Vector2Int _gridPosition;
     private BuildingRotation _currentRotation;
-    private readonly List<IBuildingBehavior> _behaviors = new();
+    private List<IBuildingBehavior> _behaviors = new();
     
     private ConnectionPoint[] _connectionPoints;
     private ConnectionPoint[] _inputs;
@@ -67,39 +67,50 @@ public class PlacedBuilding : MonoBehaviour
 
     private void InitializeBehaviors()
     {
-        if(buildingData.behaviorConfigs == null 
-           || buildingData.behaviorConfigs.Count == 0)
+        if (buildingData == null || buildingData.behaviorConfigs == null)
         {
-            Debug.Log($"[PlacedBuilding] {buildingData.buildingName} has no behaviors");
+            Debug.LogWarning($"[PlacedBuilding] {name} has no behavior configs");
             return;
         }
-
-        foreach (var conf in buildingData.behaviorConfigs)
+    
+        Debug.Log($"[PlacedBuilding] Initializing {buildingData.behaviorConfigs.Count} behaviors for {buildingData.buildingName}");
+    
+        _behaviors = new List<IBuildingBehavior>();
+    
+        foreach (var config in buildingData.behaviorConfigs)
         {
-            if(conf == null) continue;
-            
-            var behavior = conf.CreateBehavior();
+            if (config == null)
+            {
+                Debug.LogWarning($"[PlacedBuilding] Null config in {buildingData.buildingName}");
+                continue;
+            }
+        
+            var behavior = config.CreateBehavior();
+        
+            if (behavior == null)
+            {
+                Debug.LogWarning($"[PlacedBuilding] Failed to create behavior from {config.name}");
+                continue;
+            }
+        
             behavior.Initialize(this, buildingData);
+        
             _behaviors.Add(behavior);
-            
+        
             Debug.Log($"[PlacedBuilding] Added behavior: {behavior.GetType().Name}");
         }
-
-        var service = BuildingService.Instance;
-        if (service == null)
+    
+        // ДОБАВЬ ЭТУ ПРОВЕРКУ
+        if (_behaviors.Count > 1)
         {
-            Debug.LogWarning("[PlacedBuilding] BuildingService not found!");
-            return;
+            Debug.LogWarning($"[PlacedBuilding] {buildingData.buildingName} has {_behaviors.Count} behaviors! Expected 1 for turret.");
         }
-        
-        var manager = service.BehaviorManager;
+    
+        var manager = BuildingService.Instance?.BehaviorManager;
+    
         if (manager != null)
         {
             manager.RegisterBuilding(this);
-        }
-        else
-        {
-            Debug.LogWarning("[PlacedBuilding] BuildingBehaviorManager not assigned to BuildingService!");
         }
     }
 

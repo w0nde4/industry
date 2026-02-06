@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    private static Sprite _circleSprite;
+    
     private Enemy _target;
     private int _damage;
     private float _speed;
     
     private SpriteRenderer _spriteRenderer;
+
+    public event Action OnDestroyed;
     
     public void Initialize(Enemy target, int damage, float speed)
     {
@@ -28,10 +33,14 @@ public class Projectile : MonoBehaviour
         
         _spriteRenderer.color = Color.yellow;
         
-        var circle = Resources.Load<Sprite>("Circle");
-        if (circle != null)
+        if(_circleSprite == null)
         {
-            _spriteRenderer.sprite = circle;
+            _circleSprite = Resources.Load<Sprite>("Circle");
+        }
+        
+        if (_circleSprite != null)
+        {
+            _spriteRenderer.sprite = _circleSprite;
         }
         
         transform.localScale = Vector3.one * 0.2f;
@@ -41,6 +50,7 @@ public class Projectile : MonoBehaviour
     {
         if (_target == null || !_target.IsAlive)
         {
+            OnDestroyed?.Invoke();
             Destroy(gameObject);
             return;
         }
@@ -72,6 +82,7 @@ public class Projectile : MonoBehaviour
             _target.TakeDamage(_damage);
         }
         
+        OnDestroyed?.Invoke();
         Destroy(gameObject);
     }
 }

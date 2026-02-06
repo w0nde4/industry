@@ -13,6 +13,9 @@ public class Enemy : MonoBehaviour
     private PathfindingSystem _pathfinding;
     private GridSystem _grid;
     
+    private static PathfindingSystem _pathfindingCache;
+    private static BaseCore _baseCoreCache;
+    
     public EnemyData Data => _data;
     public bool IsAlive => _currentHP > 0;
     public Vector3 Position => transform.position;
@@ -26,8 +29,18 @@ public class Enemy : MonoBehaviour
         transform.position = startPosition;
         
         SetupVisuals();
+
+        if (_pathfindingCache == null)
+        {
+            _pathfindingCache = FindObjectOfType<PathfindingSystem>();
+        }
+        _pathfinding = _pathfindingCache;
         
-        _pathfinding = FindObjectOfType<PathfindingSystem>();
+        if (_baseCoreCache == null)
+        {
+            _baseCoreCache = FindObjectOfType<BaseCore>();
+        }
+        
         _grid = GridService.Instance.Grid;
         
         CalculatePath(startPosition, targetPosition);
@@ -145,19 +158,17 @@ public class Enemy : MonoBehaviour
     private void OnReachedTarget()
     {
         Debug.Log($"[Enemy] Reached target, dealing {_data.damageToBase} damage to base");
-        
-        var baseCore = FindObjectOfType<BaseCore>();
-        
-        if (baseCore != null)
+    
+        if (_baseCoreCache != null)
         {
-            baseCore.TakeDamage(_data.damageToBase);
+            _baseCoreCache.TakeDamage(_data.damageToBase);
         }
-        
+    
         if (EnemyManager.Instance != null)
         {
             EnemyManager.Instance.UnregisterEnemy(this);
         }
-        
+    
         Destroy(gameObject);
     }
     

@@ -51,8 +51,13 @@ public class BaseCore : MonoBehaviour
     private void Die()
     {
         Debug.Log("[BaseCore] Base destroyed!");
-        
+    
         OnDestroyed?.Invoke();
+    
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TriggerDefeat();
+        }
     }
     
     private void OnDrawGizmos()
